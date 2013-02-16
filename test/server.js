@@ -31,7 +31,29 @@ describe('BinaryServer', function(){
       new BinaryClient(serverUrl);
       new BinaryClient(serverUrl);
     });
+    
+    describe('.clientCounter', function() {
+      it('should increment _clientCounter on connection', function(done) {
+        server.on('connection', function(client) {
+          assert.equal(server._clientCounter, 4);
+          done();
+        });
+        new BinaryClient(serverUrl);
+      });
+
+      it('should decrement _clientCounter on client disconnect', function(done) {
+        var client = server.clients[3]
+
+        client.on('close',function() {
+          assert.equal(server._clientCounter, 3);
+          done();
+        });
+        
+        client.close();
+      });
+    });
   });
+
   describe('.close()', function(){
     it('should prevent future clients connecting', function(done){
       server.close();

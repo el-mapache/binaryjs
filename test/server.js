@@ -31,7 +31,6 @@ describe('BinaryServer', function(){
       new BinaryClient(serverUrl);
       new BinaryClient(serverUrl);
     });
-    
     describe('.clientCounter', function() {
       it('should increment _clientCounter on connection', function(done) {
         server.on('connection', function(client) {
@@ -48,7 +47,6 @@ describe('BinaryServer', function(){
           assert.equal(server._clientCounter, 3);
           done();
         });
-        
         client.close();
       });
     });
